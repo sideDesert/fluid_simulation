@@ -87,82 +87,94 @@ fluid_simulation/
    source /usr/lib/openfoam/openfoam2406/etc/bashrc
    ```
 
-2. **Run the Simulation**
+2. **Single Simulation**
 
    ```bash
-   python run.py --end-time <time> --delta-t <timestep> --nu <viscosity>
+   python3 run.py --end-time <time> --delta-t <timestep> --Re <reynolds> --velocity <velocity>
    ```
 
    Parameters:
 
    - `--end-time`: Duration of simulation in seconds
    - `--delta-t`: Time step size
-   - `--nu`: Kinematic viscosity
+   - `--Re`: Reynolds number (dimensionless)
+   - `--velocity`: Free stream velocity (m/s)
 
-3. **Extract Simulation Data**
+3. **Batch Simulations**
 
-   ```bash
-   python extract_data.py
+   Create a JSON configuration file (e.g., `sample.json`):
+
+   ```json
+   {
+     "velocity": [1.0, 1.0],
+     "Re": [50, 100]
+   }
    ```
 
-   This will create CSV files containing:
-
-   - Velocity magnitude at each node over time
-   - Pressure values at each node over time
-   - Drag coefficient over time
-
-### Example Usage
-
-1. **Standard Flow Simulation (40 seconds)**
+   Run multiple simulations:
 
    ```bash
-   python run.py --end-time 40.0 --delta-t 0.001 --nu 0.01
-   python extract_data.py
+   python3 batch_run.py sample.json --end-time 5.0 --delta-t 0.01
    ```
 
    This will:
 
-   - Run simulation for 40 seconds
-   - Use time steps of 0.001 seconds
-   - Set kinematic viscosity to 0.01
-   - Generate data files for analysis
+   - Run simulations for each Re-velocity pair
+   - Save videos in `media/` directory as `flow_Re{Re}_U{velocity}.mp4`
+   - Save data in `data/run_Re{Re}_U{velocity}/` directories
+   - Each run directory contains:
+     - `velocity/data.csv`: Velocity magnitude data
+     - `pressure/data.csv`: Pressure field data
+     - `drag/data.csv`: Drag coefficient data
 
-2. **Fast Flow (Lower Viscosity)**
+### Example Usage
+
+1. **Single Laminar Flow (Re = 100)**
 
    ```bash
-   python run.py --end-time 40.0 --delta-t 0.001 --nu 0.005
-   python extract_data.py
+   python3 run.py --end-time 40.0 --delta-t 0.001 --Re 100 --velocity 1.0
    ```
 
-   - Creates faster flow with more turbulence
-   - Good for observing vortex shedding
+2. **Multiple Flow Regimes**
 
-3. **Slow Flow (Higher Viscosity)**
+   Create `simulations.json`:
+
+   ```json
+   {
+     "velocity": [1.0, 1.0, 1.0],
+     "Re": [50, 100, 200]
+   }
+   ```
+
+   Run batch simulations:
+
    ```bash
-   python run.py --end-time 40.0 --delta-t 0.001 --nu 0.02
-   python extract_data.py
+   python3 batch_run.py simulations.json --end-time 40.0 --delta-t 0.001
    ```
-   - Creates slower, more laminar flow
-   - Better for observing steady-state behavior
 
-### Output
+   This will simulate:
 
-The scripts generate:
+   - Steady flow (Re = 50)
+   - Laminar vortex shedding (Re = 100)
+   - Transitional flow (Re = 200)
 
-1. OpenFOAM simulation results in `flow_cylinder/`
-2. Visualization frames in `frames/`
-3. Final video file: `flow_visualization.mp4`
-4. Data files in `data/`:
-   - `velocity/data.csv`: Velocity magnitude at each node
-   - `pressure/data.csv`: Pressure values at each node
-   - `drag/data.csv`: Drag coefficient over time
+### Output Structure
 
-The visualization shows:
-
-- Velocity magnitude (color-coded)
-- Streamlines showing flow patterns
-- Color bar for velocity scale
-- Full view of cylinder and surrounding flow
+```
+project/
+├── media/                      # Visualization videos
+│   ├── flow_Re50_U1.0.mp4
+│   └── flow_Re100_U1.0.mp4
+└── data/                      # Simulation data
+    ├── run_Re50_U1.0/
+    │   ├── velocity/
+    │   ├── pressure/
+    │   └── drag/
+    └── run_Re100_U1.0/
+        ├── velocity/
+        ├── pressure/
+        └── drag/
+```
 
 ## Data Analysis
 

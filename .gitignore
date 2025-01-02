@@ -8,6 +8,7 @@ data/
 frames/
 
 # Video files except sample
+media/
 *.mp4
 !sample.mp4
 

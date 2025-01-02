@@ -3,6 +3,7 @@
 import os
 import numpy as np
 import pandas as pd
+import argparse
 
 
 def ensure_directory(path):
@@ -102,39 +103,36 @@ def read_openfoam_scalar_file(filepath):
         return data
 
 
-def extract_simulation_data(case_dir):
-    """Extract velocity, pressure and drag coefficient data."""
+def extract_simulation_data(case_dir, output_dir):
+    """Extract velocity, pressure and drag coefficient data.
+    
+    Args:
+        case_dir: Path to OpenFOAM case directory
+        output_dir: Directory to save extracted data
+    """
     print(f"\nExtracting data from: {case_dir}")
     
-    # Get time directories (including simulation results)
+    # Get time directories
     time_dirs = []
     for item in os.listdir(case_dir):
         try:
-            # Handle both integer and float time directories
             if item == '0' or (item.replace('.', '').isdigit() and float(item) > 0):
                 time_dirs.append(item)
         except ValueError:
             continue
     time_dirs.sort(key=lambda x: float(x) if x.replace('.', '').isdigit() else 0)
     
-    print(f"Found time directories: {time_dirs}")
-    if not time_dirs:
-        print("No time directories found. Make sure the simulation has been run.")
-        return
-
-    # Create data directories
-    data_dir = "data"
-    ensure_directory(data_dir)
-    ensure_directory(os.path.join(data_dir, "velocity"))
-    ensure_directory(os.path.join(data_dir, "pressure"))
-    ensure_directory(os.path.join(data_dir, "drag"))
-
+    # Create output directories
+    ensure_directory(os.path.join(output_dir, "velocity"))
+    ensure_directory(os.path.join(output_dir, "pressure"))
+    ensure_directory(os.path.join(output_dir, "drag"))
+    
     # Initialize data structures
     times = []
     velocity_data = {}
     pressure_data = {}
     drag_coeffs = []
-
+    
     # Constants for drag coefficient calculation
     density = 1.0
     diameter = 1.0
@@ -194,7 +192,7 @@ def extract_simulation_data(case_dir):
         vel_df['Time'] = times
         for node_idx in sorted(velocity_data.keys()):
             vel_df[f'Node_{node_idx}'] = velocity_data[node_idx]
-        vel_path = os.path.join(data_dir, "velocity", "data.csv")
+        vel_path = os.path.join(output_dir, "velocity", "data.csv")
         vel_df.to_csv(vel_path, index=False)
         print(f"\nSaved velocity data: {vel_path}")
 
@@ -205,7 +203,7 @@ def extract_simulation_data(case_dir):
         press_df['Time'] = times
         for node_idx in sorted(pressure_data.keys()):
             press_df[f'Node_{node_idx}'] = pressure_data[node_idx]
-        press_path = os.path.join(data_dir, "pressure", "data.csv")
+        press_path = os.path.join(output_dir, "pressure", "data.csv")
         press_df.to_csv(press_path, index=False)
         print(f"Saved pressure data: {press_path}")
 
@@ -215,11 +213,19 @@ def extract_simulation_data(case_dir):
             'Time': times,
             'Drag_Coefficient': drag_coeffs
         })
-        drag_path = os.path.join(data_dir, "drag", "data.csv")
+        drag_path = os.path.join(output_dir, "drag", "data.csv")
         drag_df.to_csv(drag_path, index=False)
         print(f"Saved drag coefficient data: {drag_path}")
 
 
+def main(case_dir, output_dir):
+    """Extract simulation data."""
+    extract_simulation_data(case_dir, output_dir)
+
+
 if __name__ == "__main__":
-    case_dir = "flow_cylinder"
-    extract_simulation_data(case_dir) 
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output-dir', type=str, default='data',
+                       help='Directory to save extracted data')
+    args = parser.parse_args()
+    main("flow_cylinder", args.output_dir) 

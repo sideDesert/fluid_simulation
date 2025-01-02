@@ -2,7 +2,7 @@
 
 import os
 import subprocess
-from pathlib import Path
+from extract_data import extract_simulation_data
 
 
 def modify_transport_properties(transport_properties_path, nu):
@@ -198,14 +198,25 @@ print("Creating video from frames...")
         print("Frames are preserved in the 'frames' directory")
 
 
-def main(end_time, delta_t, nu):
-    """Main function to run simulation and create visualization.
+def calculate_nu_from_reynolds(Re, velocity, characteristic_length=0.01):
+    """Calculate kinematic viscosity from Reynolds number.
     
-    # Args:
-        end_time: Simulation end time
-        delta_t: Time step size
-        nu: Kinematic viscosity
+    Args:
+        Re: Reynolds number
+        velocity: Free stream velocity (m/s)
+        characteristic_length: Cylinder diameter (m), default is 0.01m (1cm)
+    Returns:
+        nu: Kinematic viscosity (m²/s)
     """
+    return (velocity * characteristic_length) / Re
+
+
+def main(end_time, delta_t, Re, velocity):
+    """Main function to run simulation and create visualization."""
+    # Calculate nu from Reynolds number
+    nu = calculate_nu_from_reynolds(Re, velocity)
+    print(f"Calculated kinematic viscosity: {nu} m²/s")
+    
     # Paths to configuration files
     case_dir = "flow_cylinder"
     control_dict_path = os.path.join(case_dir, "system", "controlDict")
@@ -216,7 +227,7 @@ def main(end_time, delta_t, nu):
     modify_transport_properties(transport_properties_path, nu)
     
     # Run simulation
-    print(f"Running simulation with endTime={end_time}, deltaT={delta_t}, nu={nu}")
+    print(f"Running simulation with Re={Re}, U={velocity}, endTime={end_time}, deltaT={delta_t}")
     if run_openfoam_simulation(case_dir):
         print("Simulation completed successfully")
         
@@ -234,7 +245,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run OpenFOAM simulation with custom parameters')
     parser.add_argument('--end-time', type=float, required=True, help='End time for simulation')
     parser.add_argument('--delta-t', type=float, required=True, help='Time step size')
-    parser.add_argument('--nu', type=float, required=True, help='Kinematic viscosity')
+    parser.add_argument('--Re', type=float, required=True, help='Reynolds number')
+    parser.add_argument('--velocity', type=float, required=True, help='Inlet velocity (m/s)')
     
     args = parser.parse_args()
-    main(args.end_time, args.delta_t, args.nu) 
+    main(args.end_time, args.delta_t, args.Re, args.velocity) 
