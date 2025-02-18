@@ -22,9 +22,9 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         5.0;
+endTime         100.0;
 
-deltaT          0.01;
+deltaT          0.005;
 
 writeControl    runTime;
 
@@ -44,5 +44,32 @@ timePrecision   6;
 
 runTimeModifiable true;
 
+adjustTimeStep  yes;
+maxCo          0.2;
 
-// ************************************************************************* //
+functions
+{
+
+    forceCoeffs
+    {
+        type            forceCoeffs;
+        libs            (forces);
+        writeControl    timeStep;
+        writeInterval   1;
+
+        patches         (Circle);
+        p               p;
+        U               U;
+        rhoInf          1;
+        rho             rhoInf;
+        pRef            0;
+        CofR            (0.2 0.2 0.05);
+
+        liftDir         (0 1 0);
+        dragDir         (1 0 0);
+        pitchAxis       (0 0 1);
+        magUInf         0.2;
+        lRef            0.1;
+        Aref            0.01;
+    }
+}

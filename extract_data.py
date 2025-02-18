@@ -4,6 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 import argparse
+import re
 
 
 def ensure_directory(path):
@@ -12,9 +13,59 @@ def ensure_directory(path):
         os.makedirs(path)
 
 
-def calculate_drag_coefficient(force, velocity, density, area):
-    """Calculate drag coefficient."""
-    return 2 * force / (density * velocity * velocity * area)
+def read_force_coefficients(case_dir):
+    """Read force coefficients from OpenFOAM forces output.
+    
+    Args:
+        case_dir: Path to OpenFOAM case directory
+    Returns:
+        times: List of time values
+        Cd: List of drag coefficients
+        Cl: List of lift coefficients
+    """
+    times = []
+    Cd = []
+    Cl = []
+    
+    # Get all time directories
+    time_dirs = []
+    for item in os.listdir(case_dir):
+        try:
+            if item.replace('.', '').isdigit():
+                time_dirs.append(item)
+        except ValueError:
+            continue
+    time_dirs.sort(key=float)
+    
+    for time_dir in time_dirs:
+        force_file = os.path.join(case_dir, time_dir, "uniform/functionObjects/functionObjectProperties")
+        if not os.path.exists(force_file):
+            continue
+            
+        try:
+            with open(force_file, 'r') as f:
+                content = f.read()
+                
+                # Find the forceCoeffs dictionary
+                if "forceCoeffs" in content and "scalar" in content:
+                    # Extract Cd and Cl values using string operations
+                    cd_match = re.search(r'Cd\s+([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?);', content)
+                    cl_match = re.search(r'Cl\s+([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?);', content)
+                    
+                    if cd_match and cl_match:
+                        times.append(float(time_dir))
+                        Cd.append(float(cd_match.group(1)))
+                        Cl.append(float(cl_match.group(1)))
+        except Exception as e:
+            print(f"Error reading force coefficients from {force_file}: {str(e)}")
+            continue
+    
+    # Sort by time
+    sorted_data = sorted(zip(times, Cd, Cl))
+    if sorted_data:
+        times, Cd, Cl = zip(*sorted_data)
+    
+    return list(times), list(Cd), list(Cl)
 
 
 def read_openfoam_vector_file(filepath):
@@ -22,12 +73,6 @@ def read_openfoam_vector_file(filepath):
     print(f"Reading vector file: {filepath}")
     with open(filepath, 'r') as f:
         lines = f.readlines()
-        print(f"Total lines in file: {len(lines)}")
-        
-        # Debug: Print first few lines
-        print("First 10 lines:")
-        for line in lines[:10]:
-            print(line.strip())
         
         # Find the data section
         start_idx = -1
@@ -35,14 +80,11 @@ def read_openfoam_vector_file(filepath):
         for i, line in enumerate(lines):
             if line.strip() == '(':
                 start_idx = i + 1
-                print(f"Found data start at line {i+1}")
             elif line.strip() == ')':
                 end_idx = i
-                print(f"Found data end at line {i}")
                 break
         
         if start_idx == -1 or end_idx == -1:
-            print("Could not find data section markers")
             return []
         
         # Process vector data
@@ -58,21 +100,13 @@ def read_openfoam_vector_file(filepath):
                     except ValueError:
                         continue
         
-        print(f"Extracted {len(data)} vector values")
         return data
 
 
 def read_openfoam_scalar_file(filepath):
     """Read OpenFOAM scalar file and return list of values."""
-    print(f"Reading scalar file: {filepath}")
     with open(filepath, 'r') as f:
         lines = f.readlines()
-        print(f"Total lines in file: {len(lines)}")
-        
-        # Debug: Print first few lines
-        print("First 10 lines:")
-        for line in lines[:10]:
-            print(line.strip())
         
         # Find the data section
         start_idx = -1
@@ -80,14 +114,11 @@ def read_openfoam_scalar_file(filepath):
         for i, line in enumerate(lines):
             if line.strip() == '(':
                 start_idx = i + 1
-                print(f"Found data start at line {i+1}")
             elif line.strip() == ')':
                 end_idx = i
-                print(f"Found data end at line {i}")
                 break
         
         if start_idx == -1 or end_idx == -1:
-            print("Could not find data section markers")
             return []
         
         # Process scalar data
@@ -99,12 +130,11 @@ def read_openfoam_scalar_file(filepath):
             except ValueError:
                 continue
         
-        print(f"Extracted {len(data)} scalar values")
         return data
 
 
 def extract_simulation_data(case_dir, output_dir):
-    """Extract velocity, pressure and drag coefficient data.
+    """Extract velocity, pressure and force coefficient data.
     
     Args:
         case_dir: Path to OpenFOAM case directory
@@ -125,20 +155,13 @@ def extract_simulation_data(case_dir, output_dir):
     # Create output directories
     ensure_directory(os.path.join(output_dir, "velocity"))
     ensure_directory(os.path.join(output_dir, "pressure"))
-    ensure_directory(os.path.join(output_dir, "drag"))
+    ensure_directory(os.path.join(output_dir, "forces"))
     
     # Initialize data structures
     times = []
     velocity_data = {}
     pressure_data = {}
-    drag_coeffs = []
     
-    # Constants for drag coefficient calculation
-    density = 1.0
-    diameter = 1.0
-    area = diameter
-    inlet_velocity = 1.0
-
     # Process each time directory
     for t_dir in time_dirs:
         t = float(t_dir) if t_dir.replace('.', '').isdigit() else 0.0
@@ -148,7 +171,6 @@ def extract_simulation_data(case_dir, output_dir):
         # Read velocity file
         U_file = os.path.join(time_dir, 'U')
         if os.path.exists(U_file):
-            print(f"Found U file: {U_file}")
             velocities = read_openfoam_vector_file(U_file)
             if velocities:
                 times.append(t)
@@ -156,35 +178,19 @@ def extract_simulation_data(case_dir, output_dir):
                     if node_idx not in velocity_data:
                         velocity_data[node_idx] = []
                     velocity_data[node_idx].append(vel)
-        else:
-            print(f"No U file found in {time_dir}")
-
+        
         # Read pressure file
         p_file = os.path.join(time_dir, 'p')
         if os.path.exists(p_file):
-            print(f"Found p file: {p_file}")
             pressures = read_openfoam_scalar_file(p_file)
             for node_idx, p in enumerate(pressures):
                 if node_idx not in pressure_data:
                     pressure_data[node_idx] = []
                 pressure_data[node_idx].append(p)
-            
-            # Calculate drag coefficient
-            if pressures:
-                p_upstream = np.max(pressures)
-                p_downstream = np.min(pressures)
-                force = (p_upstream - p_downstream) * area
-                cd = calculate_drag_coefficient(force, inlet_velocity, density, area)
-                drag_coeffs.append(cd)
-        else:
-            print(f"No p file found in {time_dir}")
-
-    print("\nSummary:")
-    print(f"Time steps processed: {len(times)}")
-    print(f"Velocity nodes: {len(velocity_data)}")
-    print(f"Pressure nodes: {len(pressure_data)}")
-    print(f"Drag coefficients calculated: {len(drag_coeffs)}")
-
+    
+    # Read force coefficients
+    force_times, Cd, Cl = read_force_coefficients(case_dir)
+    
     # Save velocity data
     if velocity_data:
         vel_columns = ['Time'] + [f'Node_{i}' for i in sorted(velocity_data.keys())]
@@ -195,7 +201,7 @@ def extract_simulation_data(case_dir, output_dir):
         vel_path = os.path.join(output_dir, "velocity", "data.csv")
         vel_df.to_csv(vel_path, index=False)
         print(f"\nSaved velocity data: {vel_path}")
-
+    
     # Save pressure data
     if pressure_data:
         press_columns = ['Time'] + [f'Node_{i}' for i in sorted(pressure_data.keys())]
@@ -206,26 +212,27 @@ def extract_simulation_data(case_dir, output_dir):
         press_path = os.path.join(output_dir, "pressure", "data.csv")
         press_df.to_csv(press_path, index=False)
         print(f"Saved pressure data: {press_path}")
-
-    # Save drag coefficient data
-    if drag_coeffs:
-        drag_df = pd.DataFrame({
-            'Time': times,
-            'Drag_Coefficient': drag_coeffs
+    
+    # Save force coefficient data
+    if Cd and Cl:
+        force_df = pd.DataFrame({
+            'Time': force_times,
+            'Drag_Coefficient': Cd,
+            'Lift_Coefficient': Cl
         })
-        drag_path = os.path.join(output_dir, "drag", "data.csv")
-        drag_df.to_csv(drag_path, index=False)
-        print(f"Saved drag coefficient data: {drag_path}")
+        force_path = os.path.join(output_dir, "forces", "coefficients.csv")
+        force_df.to_csv(force_path, index=False)
+        print(f"Saved force coefficient data: {force_path}")
 
 
-def main(case_dir, output_dir):
-    """Extract simulation data."""
-    extract_simulation_data(case_dir, output_dir)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--output-dir', type=str, default='data',
-                       help='Directory to save extracted data')
+def main():
+    parser = argparse.ArgumentParser(description='Extract OpenFOAM simulation data')
+    parser.add_argument('case_dir', help='Path to OpenFOAM case directory')
+    parser.add_argument('output_dir', help='Directory to save extracted data')
     args = parser.parse_args()
-    main("flow_cylinder", args.output_dir) 
+    
+    extract_simulation_data(args.case_dir, args.output_dir)
+
+
+if __name__ == '__main__':
+    main()

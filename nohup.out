@@ -1,0 +1,152 @@
+[90m[main 2025-01-21T04:39:20.666Z][0m update#setState disabled
+[90m[main 2025-01-21T04:39:20.666Z][0m update#ctor - updates are disabled as there is no update URL
+[21858:0121/100923.038724:ERROR:nss_util.cc(357)] After loading Root Certs, loaded==false: NSS error code: -8018
+[21858:0121/155458.146290:ERROR:network_service_instance_impl.cc(599)] Network service crashed, restarting service.
+LaunchProcess: failed to execvp:
+/proc/self/exe
+[90m[main 2025-01-24T11:25:42.260Z][0m update#setState disabled
+[90m[main 2025-01-24T11:25:42.261Z][0m update#ctor - updates are disabled as there is no update URL
+[311752:0124/165544.583828:ERROR:nss_util.cc(357)] After loading Root Certs, loaded==false: NSS error code: -8018
+[311752:0124/171816.261046:ERROR:atom_cache.cc(229)] Add chromium/from-privileged to kAtomsToCache
+[90m[main 2025-01-24T12:01:38.051Z][0m Extension host with pid 312626 exited with code: 0, signal: unknown.
+[90m[main 2025-01-24T12:01:38.247Z][0m Extension host with pid 312498 exited with code: 0, signal: unknown.
+[90m[main 2025-01-24T12:01:49.341Z][0m update#setState disabled
+[90m[main 2025-01-24T12:01:49.342Z][0m update#ctor - updates are disabled as there is no update URL
+[359746:0124/173152.352871:ERROR:nss_util.cc(357)] After loading Root Certs, loaded==false: NSS error code: -8018
+[90m[main 2025-01-24T12:02:13.330Z][0m Extension host with pid 360684 exited with code: 0, signal: unknown.
+[90m[main 2025-01-24T12:02:13.444Z][0m Extension host with pid 360567 exited with code: 0, signal: unknown.
+[90m[main 2025-01-26T09:16:12.030Z][0m update#setState disabled
+[90m[main 2025-01-26T09:16:12.031Z][0m update#ctor - updates are disabled as there is no update URL
+[24154:0126/144614.344653:ERROR:nss_util.cc(357)] After loading Root Certs, loaded==false: NSS error code: -8018
+[24154:0126/151903.803193:ERROR:atom_cache.cc(229)] Add chromium/from-privileged to kAtomsToCache
+[24154:0126/170630.181226:ERROR:atom_cache.cc(229)] Add code/file-list to kAtomsToCache
+[90m[main 2025-02-09T09:27:46.826Z][0m update#setState disabled
+[90m[main 2025-02-09T09:27:46.827Z][0m update#ctor - updates are disabled as there is no update URL
+[93206:0209/145747.475168:ERROR:nss_util.cc(357)] After loading Root Certs, loaded==false: NSS error code: -8018
+[93305:0209/165440.407060:ERROR:gl_surface_presentation_helper.cc(260)] GetVSyncParametersIfAvailable() failed for 1 times!
+(node:93206) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 child-process-gone listeners added to [App]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `cursor --trace-warnings ...` to show where the warning was created)
+[90m[main 2025-02-09T13:31:15.354Z][0m Extension host with pid 376661 exited with code: 0, signal: unknown.
+[90m[main 2025-02-09T13:31:15.487Z][0m Extension host with pid 376592 exited with code: 0, signal: unknown.
+Opening in existing browser session.
+[90m[main 2025-02-10T09:50:33.440Z][0m update#setState disabled
+[90m[main 2025-02-10T09:50:33.441Z][0m update#ctor - updates are disabled as there is no update URL
+[6929:0210/152035.420025:ERROR:nss_util.cc(357)] After loading Root Certs, loaded==false: NSS error code: -8018
+[90m[main 2025-02-10T10:06:38.897Z][0m Extension host with pid 7744 exited with code: 0, signal: unknown.
+[90m[main 2025-02-10T10:07:51.670Z][0m Extension host with pid 8093 exited with code: 0, signal: unknown.
+[6929:0210/155017.769945:ERROR:atom_cache.cc(229)] Add chromium/from-privileged to kAtomsToCache
+[6929:0210/184027.820855:ERROR:atom_cache.cc(229)] Add code/file-list to kAtomsToCache
+(node:6929) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 child-process-gone listeners added to [App]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+(Use `cursor --trace-warnings ...` to show where the warning was created)
+[90m[main 2025-02-10T20:52:41.624Z][0m Extension host with pid 524220 exited with code: 0, signal: unknown.
+[90m[main 2025-02-10T20:52:42.199Z][0m Extension host with pid 524136 exited with code: 0, signal: unknown.
+[91m[main 2025-02-10T20:52:52.933Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+Opening in existing browser session.
+Opening in existing browser session.
+[90m[main 2025-02-11T10:09:58.936Z][0m Extension host with pid 972359 exited with code: 0, signal: unknown.
+[91m[main 2025-02-11T10:09:59.299Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-11T10:09:59.531Z][0m Extension host with pid 972242 exited with code: 0, signal: unknown.
+Opening in existing browser session.
+[90m[main 2025-02-11T11:03:19.939Z][0m Extension host with pid 1163974 exited with code: 0, signal: unknown.
+[90m[main 2025-02-11T11:03:20.147Z][0m Extension host with pid 1163940 exited with code: 0, signal: unknown.
+[91m[main 2025-02-11T11:03:20.219Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-11T11:57:32.322Z][0m Extension host with pid 427150 exited with code: 0, signal: unknown.
+[91m[main 2025-02-11T11:57:32.628Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-11T11:57:33.485Z][0m Extension host with pid 427104 exited with code: 0, signal: unknown.
+[90m[main 2025-02-11T15:55:37.429Z][0m Extension host with pid 1465644 exited with code: 0, signal: unknown.
+[90m[main 2025-02-11T15:55:37.797Z][0m Extension host with pid 1465623 exited with code: 0, signal: unknown.
+[90m[main 2025-02-12T11:04:16.900Z][0m Extension host with pid 1759044 exited with code: 0, signal: unknown.
+[91m[main 2025-02-12T11:04:17.478Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-12T11:04:17.549Z][0m Extension host with pid 1758958 exited with code: 0, signal: unknown.
+(node:6929) MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 vscode:disconnect listeners added to [IpcMainImpl]. MaxListeners is 10. Use emitter.setMaxListeners() to increase limit
+[90m[main 2025-02-12T11:20:55.273Z][0m Extension host with pid 2263654 exited with code: 0, signal: unknown.
+[90m[main 2025-02-12T11:20:55.525Z][0m Extension host with pid 2263576 exited with code: 0, signal: unknown.
+[90m[main 2025-02-12T11:27:09.650Z][0m Extension host with pid 2281544 exited with code: 0, signal: unknown.
+[90m[main 2025-02-12T11:27:09.922Z][0m Extension host with pid 2281512 exited with code: 0, signal: unknown.
+63874755609024:error:1000007d:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED:../../third_party/boringssl/src/ssl/handshake.cc:392:
+[7031:0212/170012.931136:ERROR:ssl_client_socket_impl.cc(879)] handshake failed; returned -1, SSL error code 1, net_error -183
+[90m[main 2025-02-12T11:30:47.251Z][0m Extension host with pid 2290665 exited with code: 0, signal: unknown.
+[90m[main 2025-02-12T11:30:47.502Z][0m Extension host with pid 2290587 exited with code: 0, signal: unknown.
+[93m[main 2025-02-12T11:30:52.510Z][0m TracingService: dropping unsupported envelope
+[90m[main 2025-02-12T11:31:17.232Z][0m Extension host with pid 2295679 exited with code: 0, signal: unknown.
+[90m[main 2025-02-12T11:31:17.474Z][0m Extension host with pid 2295678 exited with code: 0, signal: unknown.
+d [FetchError]: request to https://api2.cursor.sh/aiserver.v1.AuthService/DownloadUpdate failed, reason: getaddrinfo EAI_AGAIN api2.cursor.sh
+    at ClientRequest.<anonymous> (/tmp/.mount_cursorAsX2rb/resources/app/out/main.js:11:437891)
+    at ClientRequest.emit (node:events:519:28)
+    at TLSSocket.socketErrorListener (node:_http_client:500:9)
+    at TLSSocket.emit (node:events:519:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  type: 'system',
+  errno: 'EAI_AGAIN',
+  code: 'EAI_AGAIN'
+}
+d [FetchError]: request to https://api2.cursor.sh/aiserver.v1.AuthService/DownloadUpdate failed, reason: getaddrinfo EAI_AGAIN api2.cursor.sh
+    at ClientRequest.<anonymous> (/tmp/.mount_cursorAsX2rb/resources/app/out/main.js:11:437891)
+    at ClientRequest.emit (node:events:519:28)
+    at TLSSocket.socketErrorListener (node:_http_client:500:9)
+    at TLSSocket.emit (node:events:519:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  type: 'system',
+  errno: 'EAI_AGAIN',
+  code: 'EAI_AGAIN'
+}
+d [FetchError]: request to https://api2.cursor.sh/aiserver.v1.AuthService/DownloadUpdate failed, reason: getaddrinfo EAI_AGAIN api2.cursor.sh
+    at ClientRequest.<anonymous> (/tmp/.mount_cursorAsX2rb/resources/app/out/main.js:11:437891)
+    at ClientRequest.emit (node:events:519:28)
+    at TLSSocket.socketErrorListener (node:_http_client:500:9)
+    at TLSSocket.emit (node:events:519:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  type: 'system',
+  errno: 'EAI_AGAIN',
+  code: 'EAI_AGAIN'
+}
+d [FetchError]: request to https://api2.cursor.sh/aiserver.v1.AuthService/DownloadUpdate failed, reason: getaddrinfo EAI_AGAIN api2.cursor.sh
+    at ClientRequest.<anonymous> (/tmp/.mount_cursorAsX2rb/resources/app/out/main.js:11:437891)
+    at ClientRequest.emit (node:events:519:28)
+    at TLSSocket.socketErrorListener (node:_http_client:500:9)
+    at TLSSocket.emit (node:events:519:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  type: 'system',
+  errno: 'EAI_AGAIN',
+  code: 'EAI_AGAIN'
+}
+d [FetchError]: request to https://api2.cursor.sh/aiserver.v1.AuthService/DownloadUpdate failed, reason: getaddrinfo EAI_AGAIN api2.cursor.sh
+    at ClientRequest.<anonymous> (/tmp/.mount_cursorAsX2rb/resources/app/out/main.js:11:437891)
+    at ClientRequest.emit (node:events:519:28)
+    at TLSSocket.socketErrorListener (node:_http_client:500:9)
+    at TLSSocket.emit (node:events:519:28)
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  type: 'system',
+  errno: 'EAI_AGAIN',
+  code: 'EAI_AGAIN'
+}
+Opening in existing browser session.
+Opening in existing browser session.
+[90m[main 2025-02-13T16:42:12.954Z][0m Extension host with pid 1424809 exited with code: 0, signal: unknown.
+[90m[main 2025-02-13T16:42:13.817Z][0m Extension host with pid 1424766 exited with code: 0, signal: unknown.
+[91m[main 2025-02-13T16:42:14.593Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-13T16:42:16.443Z][0m Extension host with pid 1353846 exited with code: 0, signal: unknown.
+[91m[main 2025-02-13T16:42:17.562Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-13T16:42:18.515Z][0m Extension host with pid 1353824 exited with code: 0, signal: unknown.
+[90m[main 2025-02-13T16:45:16.585Z][0m Extension host with pid 96241 exited with code: 0, signal: unknown.
+[91m[main 2025-02-13T16:45:16.893Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-13T16:45:17.408Z][0m Extension host with pid 94623 exited with code: 0, signal: unknown.
+[91m[main 2025-02-13T16:45:18.412Z][0m Extension host with pid 94623 still exists, forcefully killing it...
+[90m[main 2025-02-13T16:45:27.879Z][0m Extension host with pid 2297024 exited with code: 0, signal: unknown.
+[91m[main 2025-02-13T16:45:28.075Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-13T16:45:30.034Z][0m Extension host with pid 2296921 exited with code: 0, signal: unknown.
+[90m[main 2025-02-13T16:51:00.700Z][0m Extension host with pid 2434057 exited with code: 0, signal: unknown.
+[90m[main 2025-02-13T16:51:02.744Z][0m Extension host with pid 2434000 exited with code: 0, signal: unknown.
+[90m[main 2025-02-13T16:56:39.091Z][0m Extension host with pid 3209242 exited with code: 0, signal: unknown.
+[91m[main 2025-02-13T16:56:39.428Z][0m [UtilityProcessWorker]: terminated unexpectedly with code 128201632, signal: unknown
+[90m[main 2025-02-13T16:56:39.493Z][0m Extension host with pid 3209103 exited with code: 0, signal: unknown.

@@ -21,7 +21,7 @@ solvers
         solver          PCG;
         preconditioner  DIC;
         tolerance       1e-06;
-        relTol          0.05;
+        relTol          0.01;
     }
 
     pFinal
@@ -33,19 +33,28 @@ solvers
     U
     {
         solver          smoothSolver;
-        smoother        symGaussSeidel;
-        tolerance       1e-05;
-        relTol          0;
+        smoother        GaussSeidel;
+        tolerance       1e-08;
+        relTol          0.01;
+        nSweeps         2;
     }
 }
 
 PISO
 {
     nCorrectors     2;
-    nNonOrthogonalCorrectors 0;
+    nNonOrthogonalCorrectors 1;
     pRefCell        0;
     pRefValue       0;
 }
 
+relaxationFactors
+{
+    equations
+    {
+        U               0.9;
+        p               0.9;
+    }
+}
 
 // ************************************************************************* //

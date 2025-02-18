@@ -198,6 +198,23 @@ print("Creating video from frames...")
         print("Frames are preserved in the 'frames' directory")
 
 
+def create_umax_header(case_dir, uMax):
+    """Create uMax.H header file with the calculated maximum inlet velocity.
+    
+    Args:
+        case_dir: Path to the OpenFOAM case directory
+        uMax: Maximum inlet velocity value
+    """
+    header_content = f'const scalar uMax = {uMax};\n'
+    header_path = os.path.join(case_dir, 'constant', 'uMax.H')
+    
+    # Create constant directory if it doesn't exist
+    os.makedirs(os.path.join(case_dir, 'constant'), exist_ok=True)
+    
+    with open(header_path, 'w') as f:
+        f.write(header_content)
+
+
 def calculate_nu_from_reynolds(Re, velocity, characteristic_length=0.01):
     """Calculate kinematic viscosity from Reynolds number.
     
@@ -211,9 +228,22 @@ def calculate_nu_from_reynolds(Re, velocity, characteristic_length=0.01):
     return (velocity * characteristic_length) / Re
 
 
+# def calculate_nu_from_reynolds(Re, velocity, D=0.1):
+#     """Calculate maximum inlet velocity from Reynolds number.
+    
+#     Args:
+#         Re: Reynolds number
+#         velocity: Velocity (m/s)
+#         D: Characteristic length (cylinder diameter) in meters, default is 0.1m
+#     Returns:
+#         uMax: Maximum inlet velocity (m/s)
+#     """
+#     return (3/2) * (Re * velocity) / D
+
+
 def main(end_time, delta_t, Re, velocity):
     """Main function to run simulation and create visualization."""
-    # Calculate nu from Reynolds number
+    # Calculate uMax from Reynolds number
     nu = calculate_nu_from_reynolds(Re, velocity)
     print(f"Calculated kinematic viscosity: {nu} m²/s")
     
@@ -222,12 +252,15 @@ def main(end_time, delta_t, Re, velocity):
     control_dict_path = os.path.join(case_dir, "system", "controlDict")
     transport_properties_path = os.path.join(case_dir, "constant", "transportProperties")
     
+    # Create uMax.H header file
+    create_umax_header(case_dir, velocity)
+    
     # Modify configuration files
     modify_control_dict(control_dict_path, end_time, delta_t)
     modify_transport_properties(transport_properties_path, nu)
     
     # Run simulation
-    print(f"Running simulation with Re={Re}, U={velocity}, endTime={end_time}, deltaT={delta_t}")
+    print(f"Running simulation with Re={Re}, velocity={velocity}, nu={nu}, endTime={end_time}, deltaT={delta_t}")
     if run_openfoam_simulation(case_dir):
         print("Simulation completed successfully")
         
@@ -246,7 +279,7 @@ if __name__ == "__main__":
     parser.add_argument('--end-time', type=float, required=True, help='End time for simulation')
     parser.add_argument('--delta-t', type=float, required=True, help='Time step size')
     parser.add_argument('--Re', type=float, required=True, help='Reynolds number')
-    parser.add_argument('--velocity', type=float, required=True, help='Inlet velocity (m/s)')
+    parser.add_argument('--velocity', type=float, required=True, help='Velocity (m/s)')
     
     args = parser.parse_args()
-    main(args.end_time, args.delta_t, args.Re, args.velocity) 
+    main(args.end_time, args.delta_t, args.Re, args.nu) 

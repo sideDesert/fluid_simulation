@@ -22,30 +22,45 @@ boundaryField
 {
     FrontBack
     {
-      type            empty;
+        type            empty;
     }
     Top
     {
-      type            noSlip;
+        type            noSlip;
     }
     In
     {
-      type            fixedValue;
-      value           uniform (1 0 0);
+        type            codedFixedValue;
+        name            parabolicInlet;
+        value           uniform (0 0 0);
+        code            #{
+            const scalar uMax = 0.8025;
+            const scalar h = 0.41;
+            const scalar C = 6.0;
+            
+            const vectorField& Cf = patch().Cf();
+            vectorField& field = *this;
+            
+            forAll(Cf, i)
+            {
+                const scalar y = Cf[i].y();
+                const scalar u = C * uMax * (y * (h - y)) / (h * h);
+                field[i] = vector(u, 0, 0);
+            }
+        #};
     }
     Bottom
     {
-      type            noSlip;
+        type            noSlip;
     }
     Out
     {
-      type            zeroGradient;
+        type            zeroGradient;
     }
     Circle
     {
-      type            noSlip;
+        type            noSlip;
     }
 }
-
 
 // ************************************************************************* //

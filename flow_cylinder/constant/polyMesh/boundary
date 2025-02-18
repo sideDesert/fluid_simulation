@@ -21,38 +21,44 @@ FoamFile
     FrontBack
     {
         type            empty;
-        nFaces          1588;
-        startFace       1150;
+        physicalType    empty;
+        nFaces          167304;
+        startFace       124924;
     }
     Top
     {
-        type            wall;
-        nFaces          15;
-        startFace       2738;
-    }
-    In
-    {
         type            patch;
-        nFaces          10;
-        startFace       2753;
-    }
-    Bottom
-    {
-        type            wall;
-        nFaces          15;
-        startFace       2763;
+        physicalType    patch;
+        nFaces          440;
+        startFace       292228;
     }
     Out
     {
         type            patch;
-        nFaces          10;
-        startFace       2778;
+        physicalType    patch;
+        nFaces          82;
+        startFace       292668;
+    }
+    Bottom
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          440;
+        startFace       292750;
+    }
+    In
+    {
+        type            patch;
+        physicalType    patch;
+        nFaces          82;
+        startFace       293190;
     }
     Circle
     {
-        type            wall;
-        nFaces          32;
-        startFace       2788;
+        type            patch;
+        physicalType    patch;
+        nFaces          64;
+        startFace       293272;
     }
 )
 

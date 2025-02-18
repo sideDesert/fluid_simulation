@@ -20,34 +20,34 @@ def validate_json(data):
         print("Error: JSON must be a dictionary")
         return False
         
-    if 'velocity' not in data or 'Re' not in data:
-        print("Error: JSON must contain 'velocity' and 'Re' arrays")
+    if 'nu' not in data or 'Re' not in data:
+        print("Error: JSON must contain 'nu' and 'Re' arrays")
         return False
         
-    if not isinstance(data['velocity'], list) or not isinstance(data['Re'], list):
-        print("Error: 'velocity' and 'Re' must be arrays")
+    if not isinstance(data['nu'], list) or not isinstance(data['Re'], list):
+        print("Error: 'nu' and 'Re' must be arrays")
         return False
         
-    if len(data['velocity']) != len(data['Re']):
-        print("Error: 'velocity' and 'Re' arrays must have equal length")
+    if len(data['nu']) != len(data['Re']):
+        print("Error: 'nu' and 'Re' arrays must have equal length")
         return False
         
-    if not data['velocity'] or not data['Re']:
+    if not data['nu'] or not data['Re']:
         print("Error: Arrays cannot be empty")
         return False
         
     return True
 
 
-def run_simulation(end_time, delta_t, Re, velocity, run_number):
+def run_simulation(end_time, delta_t, Re, nu, run_number):
     """Run single simulation with given parameters."""
     print(f"\nRunning simulation {run_number}")
-    print(f"Parameters: Re={Re}, velocity={velocity}")
+    print(f"Parameters: Re={Re}, nu={nu}")
     
     try:
         # Create directories
         os.makedirs('media', exist_ok=True)
-        run_dir = f'data/run_Re{Re}_U{velocity}'
+        run_dir = f'data/run_Re{Re}_nu{nu}'
         os.makedirs(run_dir, exist_ok=True)
         
         # Run the simulation
@@ -57,12 +57,12 @@ def run_simulation(end_time, delta_t, Re, velocity, run_number):
             '--end-time', str(end_time),
             '--delta-t', str(delta_t),
             '--Re', str(Re),
-            '--velocity', str(velocity)
+            '--nu', str(nu)
         ], check=True)
         
         # Move and rename the video file
         if os.path.exists('flow_visualization.mp4'):
-            new_name = f'media/flow_Re{Re}_U{velocity}.mp4'
+            new_name = f'media/flow_Re{Re}_nu{nu}.mp4'
             shutil.move('flow_visualization.mp4', new_name)
             print(f"Video saved as: {new_name}")
         
@@ -104,10 +104,10 @@ def main(config_file, end_time, delta_t):
         
     # Run simulations
     successful = 0
-    total = len(data['velocity'])
+    total = len(data['nu'])
     
-    for i, (velocity, Re) in enumerate(zip(data['velocity'], data['Re']), 1):
-        if run_simulation(end_time, delta_t, Re, velocity, i):
+    for i, (nu, Re) in enumerate(zip(data['nu'], data['Re']), 1):
+        if run_simulation(end_time, delta_t, Re, nu, i):
             successful += 1
             
     print(f"\nCompleted {successful}/{total} simulations")

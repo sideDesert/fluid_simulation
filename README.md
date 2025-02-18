@@ -193,3 +193,61 @@ Feel free to submit issues, fork the repository, and create pull requests for an
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+# Flow Cylinder Visualization
+
+This repository contains scripts to visualize the flow field around a cylinder using OpenFOAM and ParaView.
+
+## Visualization Script
+
+The main script `create_video.py` generates a video visualization of the velocity field over time from OpenFOAM simulation data.
+
+### Prerequisites
+
+- OpenFOAM (for the simulation data)
+- ParaView with Python bindings (pvpython)
+- FFmpeg (for video conversion)
+
+### Running the Script
+
+1. Make sure you have the OpenFOAM case directory `flow_cylinder` with the simulation data.
+
+2. Run the visualization script using pvpython:
+
+```bash
+/opt/paraview-5.13.1/bin/pvpython create_video.py
+```
+
+This will generate an AVI video file named `flow_visualization.avi`.
+
+3. To convert the AVI file to MP4 format, use FFmpeg:
+
+```bash
+ffmpeg -i flow_visualization.avi -c:v libx264 -preset medium -crf 23 flow_visualization.mp4
+```
+
+### Script Details
+
+The visualization script (`create_video.py`):
+
+- Reads the OpenFOAM case data
+- Creates a 2D visualization of the velocity field
+- Uses a color scale from 0 to 0.4 for velocity magnitude
+- Shows a timestamp in the upper left corner
+- Generates a 1920x1080 resolution video at 24 fps
+- Includes a color bar showing the velocity scale
+
+### Output
+
+The script generates:
+
+- `flow_visualization.avi`: Raw video output from ParaView
+- `flow_visualization.mp4`: Converted MP4 video (after using FFmpeg)
+
+### Troubleshooting
+
+If you encounter any issues:
+
+1. Make sure ParaView is properly installed with Python bindings
+2. Verify that the OpenFOAM case directory structure is correct
+3. Check that you have write permissions in the current directory
