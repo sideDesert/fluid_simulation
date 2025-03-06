@@ -6,6 +6,7 @@ flow_cylinder/[0-9]*.[0-9]*
 data/
 *.csv
 frames/
+dynamicCode
 
 # Video files except sample
 media/
